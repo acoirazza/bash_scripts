@@ -4,3 +4,22 @@
 
 # loop until ping succeeds
  ls /d &> /dev/null; while [ $? -ne 0 ]; do sleep 1; echo "pinging..."; ping -c2 192.168.101.2 &> /dev/null; done; echo "done"
+
+# zero-out free space and copy device (all partitions) to tgz
+## Fill device with zeros, delete zero-file when done
+nohup dd if=/dev/zero of=zeros bs=1M; rm -f zeros
+
+## Progress updates (from another console - utilisation will go to 100%)
+echo  ; kill -USR1 $dd_PID; tail -n3 nohup.out ; df -h | grep /dev/sda
+
+## unmount each partition with 'umount $mount_point'
+
+## capture device to .tgz
+dd if=/dev/sda | gzip > sda.gz
+
+# Restore device
+dd if=sda.gz | gunzip > /dev/sda
+
+# Mount lvm partition
+## Scan LVMs for partititons: lvmdiskscan
+## mount /dev/rootvgXX/lvXX /mnt/$mount_point
