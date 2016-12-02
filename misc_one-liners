@@ -23,3 +23,6 @@ dd if=sda.gz | gunzip > /dev/sda
 # Mount lvm partition
 ## Scan LVMs for partititons: lvmdiskscan
 ## mount /dev/rootvgXX/lvXX /mnt/$mount_point
+
+# Set SEL time from client time (using ipmitool):
+iol+ <BMC_IP> sel time set "$(date +%m/%d/%Y) $(date +%H:%M:%S)"
