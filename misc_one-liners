@@ -26,3 +26,6 @@ dd if=sda.gz | gunzip > /dev/sda
 
 # Set SEL time from client time (using ipmitool):
 iol+ <BMC_IP> sel time set "$(date +%m/%d/%Y) $(date +%H:%M:%S)"
+
+# remotely run multiple commands via SSH (without a script + SCP) - CAVEAT: cmd2 will only run if cmd1 is successful
+ssh user@host "cmd1 && cmd2"
