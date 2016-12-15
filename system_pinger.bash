@@ -25,7 +25,9 @@ myPing ()
                         if [ $failCount -ge $FAIL_TOLERANCE ]; then
                                 echo "exiting after $failCount consecutive failed pings"
                                 exit 1;
-        fi;     fi;     fi
+                        fi
+                        return 1;
+        fi;     fi
 }
 
 #date > /tmp/ping.log
